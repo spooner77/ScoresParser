@@ -5,7 +5,7 @@ const getFormatted = (s, list) => {
   return {
     id: s.id,
     level: s.score / s.sessions,
-    refuse: s.sessions / s.agreements,
+    refuse: (s.sessions / s.agreements) - 1,
     sessions: s.sessions,
     agreements: s.agreements,
     score: s.score,
@@ -13,7 +13,7 @@ const getFormatted = (s, list) => {
   }
 };
 
-const playerId = 'e9633198215e6c851303703c914cb32f';
+const playerId = '15eca1f57b75b2835755266b6ebc3ac5';
 
 fetch('https://hola.org/challenges/haggling/scores/standard')
   .then(function(response) {
