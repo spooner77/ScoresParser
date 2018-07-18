@@ -7,12 +7,13 @@ const getFormatted = (s, list) => {
     level: s.score / s.sessions,
     refuse: s.sessions / s.agreements,
     sessions: s.sessions,
+    agreements: s.agreements,
     score: s.score,
     index: list.length - s.index,
   }
 };
 
-const playerId = 'e8754ee9d97da55ed7f004f7b785f24d';
+const playerId = 'e9633198215e6c851303703c914cb32f';
 
 fetch('https://hola.org/challenges/haggling/scores/standard')
   .then(function(response) {
