@@ -13,9 +13,10 @@ const getFormatted = (s, list) => {
   }
 };
 
-const playerId = '6bc2e10064ab63c7fdf5dca7bd1b3b49';
+const playerId = process.argv.slice(3);
+const arena = process.argv[2];
 
-fetch('https://hola.org/challenges/haggling/scores/standard_1s')
+fetch(`https://hola.org/challenges/haggling/scores/${arena}`)
   .then(function(response) {
     return response.json();
   })
@@ -32,7 +33,8 @@ fetch('https://hola.org/challenges/haggling/scores/standard_1s')
     }));
 
     const top = list.slice(Math.max(list.length - 3, 1)).map(s => getFormatted(s, list));
-    const my = _.find(list, s => s.id === playerId);
+    const my = _.filter(list, s => playerId.includes(s.id));
+    const myL = my.map(s => getFormatted(s, list));
 
     console.log('=========== PLAYERS ===========');
     console.log(`all: ${scores.length}`);
@@ -45,6 +47,6 @@ fetch('https://hola.org/challenges/haggling/scores/standard_1s')
 
     if (player) {
       console.log('=========== MY ===========');
-      console.log(getFormatted(my, list));
+      console.log(myL);
     }
   });
