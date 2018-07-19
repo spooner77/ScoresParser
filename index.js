@@ -13,9 +13,9 @@ const getFormatted = (s, list) => {
   }
 };
 
-const playerId = '84aa49f7b51825176a3f7dc64c635e37';
+const playerId = '6bc2e10064ab63c7fdf5dca7bd1b3b49';
 
-fetch('https://hola.org/challenges/haggling/scores/standard')
+fetch('https://hola.org/challenges/haggling/scores/standard_1s')
   .then(function(response) {
     return response.json();
   })
@@ -23,7 +23,7 @@ fetch('https://hola.org/challenges/haggling/scores/standard')
     const scores = _.map(data, (value, id) => ({ id, ...value.all }));
     const player = _.find(scores, s => s.id === playerId);
 
-    const offset = player && player.sessions ? player.sessions : 1000;
+    const offset = 1000;
     const rating = scores.filter(s => s.sessions >= offset || s.id === playerId);
 
     const list = _.sortBy(rating, s => s.score / s.sessions).map((s, index) => ({
