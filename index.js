@@ -13,31 +13,37 @@ const getFormatted = (s, list) => {
   }
 };
 
-const playerId = '15eca1f57b75b2835755266b6ebc3ac5';
+const playerId = '84aa49f7b51825176a3f7dc64c635e37';
 
 fetch('https://hola.org/challenges/haggling/scores/standard')
   .then(function(response) {
     return response.json();
   })
   .then(function(data) {
-    const scores = _.map(data, (value, id) => ({ id, ...value.all }))
-      .filter(s => s.sessions > 100 || s.id === playerId);
+    const scores = _.map(data, (value, id) => ({ id, ...value.all }));
+    const player = _.find(scores, s => s.id === playerId);
 
-    const list = _.sortBy(scores, s => s.score / s.sessions).map((s, index) => ({
+    const offset = player && player.sessions ? player.sessions : 1000;
+    const rating = scores.filter(s => s.sessions >= offset || s.id === playerId);
+
+    const list = _.sortBy(rating, s => s.score / s.sessions).map((s, index) => ({
       ...s,
       index,
     }));
 
+    const top = list.slice(Math.max(list.length - 3, 1)).map(s => getFormatted(s, list));
     const my = _.find(list, s => s.id === playerId);
 
-    const top = list.slice(Math.max(list.length - 3, 1)).map(s => getFormatted(s, list));
+    console.log('=========== PLAYERS ===========');
+    console.log(`all: ${scores.length}`);
+    console.log(`ranking: ${list.length}`);
 
     if (top && top.length) {
       console.log('=========== TOP ===========');
       console.log(top);
     }
 
-    if (my) {
+    if (player) {
       console.log('=========== MY ===========');
       console.log(getFormatted(my, list));
     }
