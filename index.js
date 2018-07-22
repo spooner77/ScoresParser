@@ -21,7 +21,8 @@ fetch(`https://hola.org/challenges/haggling/scores/${arena}`)
     return response.json();
   })
   .then(function(data) {
-    const scores = _.map(data, (value, id) => ({ id, ...value.all }));
+    const today = new Date().toISOString().slice(0, 10);
+    const scores = _.map(data, (value, id) => ({ id, ...value[today] }));
     const players = _.find(scores, s => playerIds.includes(s.id));
 
     const offset = 1000;
